@@ -8,24 +8,27 @@ import bluetooth
 class btConnection():
 	import socket
 	def __init__(self):
-		serverMACAddress = '00:1f:e1:dd:08:3d'
-		port = 3
-		client_socket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-		client_socket.connect((serverMACAddress, port))
-
+		#serverMACAddress = '00:1f:e1:dd:08:3d'
+		#port = 3
+		#client_socket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+		#client_socket.connect((serverMACAddress, port))
+		pass
 
 	def connection_status(self):
-		try:
-			self.client_sock.getpeername()
-			return True
-		except:
-			return False
+		#try:
+	#		self.client_sock.getpeername()
+	#		return True
+	#	except:
+	#		return False
+		pass
 
 	def send_data(self, data):
-		self.client_socket.send(data)
+		#self.client_socket.send(data)
+		pass
 
 	def close_connection(self):
-		self.client_socket.close()
+		#self.client_socket.close()
+		pass
 
 
 class RootWidget(FloatLayout):
@@ -41,23 +44,25 @@ class RootWidget(FloatLayout):
 
 	def start_timer(self, data):
 		time = (self.ids.entry.text).split(':')
+		print(time)
+		#try:
+		#	self.myBtConnection.send_data(time)
+		#except Exception as e:
+	#		raise e
+	#	finally:
+	#		pass
+		pass
 
-		try:
-			self.myBtConnection.send_data(time)
-		except Exception as e:
-			raise e
-		finally:
-			pass
-
-	def stop_timer(self):
+	def stop_timer(self, arg1):
 		stop = '99:99:99'
 
-		try:
-			self.myBtConnection.send_data(stop)
-		except Exception as e:
-			raise e
-		finally:
-			pass
+		#try:
+		#	self.myBtConnection.send_data(stop)
+		#except Exception as e:
+		#	raise e
+		#finally:
+		#	pass
+		print(stop)
 
 	def add_number(self, digit):
 		text = self.ids.entry.text
