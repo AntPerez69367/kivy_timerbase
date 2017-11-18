@@ -11,8 +11,13 @@ class btConnection():
 		serverMACAddress = 'B8:27:EB:C2:A4:E0'
 		port = 3
 		client_socket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-		client_socket.connect((serverMACAddress, port))
 
+	def connect(self):
+		while not connection_status:
+			try:
+				self.client_socket.connect((self.serverMACAddress, self.port))
+			except Exception as e:
+				pass
 
 	def connection_status(self):
 		try:
@@ -33,6 +38,7 @@ class btConnection():
 
 class RootWidget(FloatLayout):
 	myBtConnection = btConnection()
+	myBtConnection.connect()
 	def build(self):
 		pass
 
