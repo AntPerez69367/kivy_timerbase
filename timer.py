@@ -8,26 +8,26 @@ import bluetooth
 class btConnection():
 	import socket
 	def __init__(self):
-		#serverMACAddress = '00:1f:e1:dd:08:3d'
-		#port = 3
-		#client_socket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-		#client_socket.connect((serverMACAddress, port))
-		pass
+		serverMACAddress = 'B8:27:EB:C2:A4:E0'
+		port = 3
+		client_socket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+		client_socket.connect((serverMACAddress, port))
+
 
 	def connection_status(self):
-		#try:
-	#		self.client_sock.getpeername()
-	#		return True
-	#	except:
-	#		return False
+		try:
+			self.client_sock.getpeername()
+			return True
+		except:
+			return False
 		pass
 
 	def send_data(self, data):
-		#self.client_socket.send(data)
+		self.client_socket.send(data)
 		pass
 
 	def close_connection(self):
-		#self.client_socket.close()
+		self.client_socket.close()
 		pass
 
 
