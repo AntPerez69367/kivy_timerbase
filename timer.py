@@ -13,7 +13,7 @@ class btConnection():
 		client_socket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
 
 	def connect(self):
-		while not connection_status:
+		while not self.connection_status:
 			try:
 				self.client_socket.connect((self.serverMACAddress, self.port))
 			except Exception as e:
