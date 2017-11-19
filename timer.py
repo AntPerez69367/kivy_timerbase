@@ -14,6 +14,7 @@ class btConnection():
 		print(port)
 		client_socket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
 		print(client_socket)
+		self.connect()
 
 	def connect(self):
 		while not self.connection_status:
@@ -44,8 +45,7 @@ class btConnection():
 
 
 class RootWidget(FloatLayout):
-	myBtConnection = btConnection()
-	myBtConnection.connect()
+
 	def build(self):
 		pass
 
@@ -98,6 +98,7 @@ if __name__ == '__main__':
 		def build(self):
 			self.use_kivy_settings = False
 			self.settings_cls = SettingsWithSidebar
+			myBtConnection = btConnection()
 			return RootWidget()
 		def build_config(self, config):
 			config.setdefaults('example', {
