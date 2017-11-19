@@ -9,26 +9,33 @@ class btConnection():
 	import socket
 	def __init__(self):
 		serverMACAddress = 'B8:27:EB:C2:A4:E0'
+		print(serverMACAddress)
 		port = 3
+		print(port)
 		client_socket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+		print(client_socket)
 
 	def connect(self):
 		while not self.connection_status:
+			print("trying to connect")
 			try:
-				self.client_socket.connect((self.serverMACAddress, self.port))
+				print("Trying to return status")
+				return self.client_socket.connect((self.serverMACAddress, self.port))
 			except Exception as e:
-				pass
+				print("No connection")
+				return False
 
 	def connection_status(self):
+		print("Checking connection status")
 		try:
-			self.client_sock.getpeername()
-			return True
+			return self.client_sock.getpeername()
 		except:
 			return False
 		pass
 
 	def send_data(self, data):
-		self.client_socket.send(data)
+		print("Sending Data " + data)
+		self.client_socket.send(data.encode())
 		pass
 
 	def close_connection(self):
