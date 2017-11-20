@@ -47,6 +47,8 @@ class btConnection():
 class RootWidget(FloatLayout):
 
 	def build(self):
+		myBtConnection = btConnection()
+		btConnection.connect()
 		pass
 
 	def build_timer_data(self):
@@ -98,8 +100,8 @@ if __name__ == '__main__':
 		def build(self):
 			self.use_kivy_settings = False
 			self.settings_cls = SettingsWithSidebar
-			myBtConnection = btConnection()
 			return RootWidget()
+
 		def build_config(self, config):
 			config.setdefaults('example', {
 							   'enablesurvey': True,
