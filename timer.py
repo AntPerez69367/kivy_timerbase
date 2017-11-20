@@ -45,10 +45,9 @@ class btConnection():
 
 
 class RootWidget(FloatLayout):
-
-	def build(self):
 		myBtConnection = btConnection()
 		btConnection.connect()
+	def build(self):
 		pass
 
 	def build_timer_data(self):
