@@ -45,8 +45,7 @@ class btConnection():
 
 
 class RootWidget(FloatLayout):
-		myBtConnection = btConnection()
-		btConnection.connect()
+	myBtConnection = btConnection()
 	def build(self):
 		pass
 
