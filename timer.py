@@ -27,19 +27,35 @@ class BlueClient(threading.Thread):
 
 		print("connecting to \"%s\" on %s" % (name, host))
 		# Create the client socket
-		try:
-			sock=BluetoothSocket( RFCOMM )
-			sock.connect((host, port))
-		except Exception as e:
-			print("Host found. Server rejecting connection.")
-
-		print("Connected")
+		sock = connect(host,port)
 
 		while True:
-			data = input()
-			if len(data) == 0: break
-			sock.send(data.encode())
-			pass
+			send(None)
+
+
+	def send(self, output):
+			if output == None:
+				pass
+			else:
+				data = input()
+				sock.send(data.encode())
+				pass
+
+
+
+	def connect(self, host, port):
+		connected = False
+		while not connected:
+			try:
+				sock=BluetoothSocket( RFCOMM )
+				sock.connect((host, port))
+				connected = True
+				App.get_running_app().root.ids.cstatus.text = 'Bluetooth Status: \nConnected'
+			except Exception as e:
+				print("Host found. Server rejecting connection.")
+
+		print("Connected")
+		return sock
 
 	def close_sock(self):
 		self.sock.close()
@@ -66,6 +82,8 @@ class RootWidget(FloatLayout):
 	#		pass
 		pass
 
+	def connection_status(self):
+		return self.connected
 	def stop_timer(self, arg1):
 		stop = '99:99:99'
 
