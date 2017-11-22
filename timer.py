@@ -67,20 +67,13 @@ class RootWidget(FloatLayout):
 	def build(self):
 		pass
 
-	def build_timer_data(self):
-		time = (self.ids.entry.text).split(':')
-		#survey_name = get survey name from settings
-		#slide_time = get slide time from settings
-		pass
-
 	def start_timer(self):
 		time = (self.ids.entry.text)
-		self.myBtConnection.send(time)
+		surveyname = App.get_running_app().surveyname
+		slidetime  = App.get_running_app().slidetime
+
+		self.myBtConnection.send(time + "_" + surveyname + "_" + slidetime)
 		self.started = not self.started
-		if self.started:
-			self.ids.startb.text = "Pause"
-		else:
-			self.ids.startb.text = "Start"
 
 	def stop_timer(self):
 		stop = '99'
@@ -108,6 +101,9 @@ if __name__ == '__main__':
 		def build(self):
 			self.use_kivy_settings = False
 			self.settings_cls = SettingsWithSidebar
+			self.surveyname = self.config.get('example', 'surveyname')
+			self.slidetime = self.config.get('example', 'slidetime')
+
 			return RootWidget()
 
 		def build_config(self, config):
@@ -122,7 +118,7 @@ if __name__ == '__main__':
 									data=settings_json)
 
 		def on_config_change(self, config, section, key, value):
-			# re-build timer data
+			print (config, section, key, value)
 			pass
 
 	TimerApp().run()
