@@ -30,16 +30,16 @@ class BlueClient(threading.Thread):
 		sock = connect(host,port)
 
 		while True:
-			send(None)
+			pass
 
 
 	def send(self, output):
-			if output == None:
-				pass
-			else:
-				data = input()
-				sock.send(data.encode())
-				pass
+		try:
+			print("Send command received")
+			self.sock.send(output.encode())
+		except Exception as e:
+			print("Unable to send: %s" % (output))
+
 
 
 
@@ -62,6 +62,10 @@ class BlueClient(threading.Thread):
 
 
 class RootWidget(FloatLayout):
+	myBtConnection = BlueClient()
+	myBtConnection.daemon = True
+	myBtConnection.start()
+
 	def build(self):
 		pass
 
@@ -73,7 +77,7 @@ class RootWidget(FloatLayout):
 
 	def start_timer(self, data):
 		time = (self.ids.entry.text).split(':')
-		print(time)
+		self.myBtConnection.send(time)
 		#try:
 		#	self.myBtConnection.send_data(time)
 		#except Exception as e:
@@ -114,9 +118,6 @@ class RootWidget(FloatLayout):
 
 if __name__ == '__main__':
 	class TimerApp(App):
-		myBtConnection = BlueClient()
-		myBtConnection.daemon = True
-		myBtConnection.start()
 
 		def build(self):
 			self.use_kivy_settings = False
