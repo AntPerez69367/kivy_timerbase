@@ -32,10 +32,10 @@ class BlueClient(threading.Thread):
 		print("Connected")
 
 		while True:
-			    data = input()
-			    if len(data) == 0: break
-			    sock.send(data.encode())
-				pass
+			data = input()
+			if len(data) == 0: break
+			sock.send(data.encode())
+			pass
 
 	def close_sock(self):
 		self.sock.close()
