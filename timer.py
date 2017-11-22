@@ -73,7 +73,7 @@ class RootWidget(FloatLayout):
 		#slide_time = get slide time from settings
 		pass
 
-	def start_timer(self, data):
+	def start_timer(self):
 		time = (self.ids.entry.text)
 		self.myBtConnection.send(time)
 		self.started = not self.started
