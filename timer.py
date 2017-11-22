@@ -76,7 +76,7 @@ class RootWidget(FloatLayout):
 		pass
 
 	def start_timer(self, data):
-		time = (self.ids.entry.text).split(':')
+		time = (self.ids.entry.text)
 		self.myBtConnection.send(time)
 		#try:
 		#	self.myBtConnection.send_data(time)
