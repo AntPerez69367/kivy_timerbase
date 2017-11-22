@@ -12,11 +12,13 @@ class BlueClient(threading.Thread):
 		# search for the timer display service
 		uuid = "00001101-0000-1000-8000-00805f9b34fb"
 		service_matches = find_service( uuid = uuid, address = addr )
-
 		while len(service_matches) == 0:
-			print("Couldn't find the Timer Display =(")
-			service_matches = find_service( uuid = uuid, address = addr )
-			time.sleep(3)
+			try:
+				print("Couldn't find the Timer Display =(")
+				service_matches = find_service( uuid = uuid, address = addr )
+				time.sleep(3)
+			except Exception as e:
+				print("Unable to connect to display.")
 
 		first_match = service_matches[0]
 		port = first_match["port"]
@@ -27,10 +29,13 @@ class BlueClient(threading.Thread):
 		# Create the client socket
 		sock=BluetoothSocket( RFCOMM )
 		sock.connect((host, port))
-
 		print("Connected")
+
 		while True:
-			pass
+			    data = input()
+			    if len(data) == 0: break
+			    sock.send(data.encode())
+				pass
 
 	def close_sock(self):
 		self.sock.close()
