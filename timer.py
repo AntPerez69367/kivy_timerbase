@@ -3,49 +3,38 @@ from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.settings import SettingsWithSidebar
 from settingsjson import settings_json
-import bluetooth
+from bluetooth import *
+import threading, time, sys
 
-class btConnection():
-	import socket
-	def __init__(self):
-		serverMACAddress = 'B8:27:EB:C2:A4:E0'
-		print(serverMACAddress)
-		port = 3
-		print(port)
-		client_socket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-		print(client_socket)
-		self.connect()
+class BlueClient(threading.Thread):
+	def run(self):
+		addr = 'B8:27:EB:C2:A4:E0'
+		# search for the timer display service
+		uuid = "00001101-0000-1000-8000-00805f9b34fb"
+		service_matches = find_service( uuid = uuid, address = addr )
 
-	def connect(self):
-		while not self.connection_status:
-			print("trying to connect")
-			try:
-				print("Trying to return status")
-				return self.client_socket.connect((self.serverMACAddress, self.port))
-			except Exception as e:
-				print("No connection")
-				return False
+		while len(service_matches) == 0:
+			print("Couldn't find the Timer Display =(")
+			service_matches = find_service( uuid = uuid, address = addr )
+			time.sleep(3)
 
-	def connection_status(self):
-		print("Checking connection status")
-		try:
-			return self.client_sock.getpeername()
-		except:
-			return False
-		pass
+		first_match = service_matches[0]
+		port = first_match["port"]
+		name = first_match["name"]
+		host = first_match["host"]
 
-	def send_data(self, data):
-		print("Sending Data " + data)
-		self.client_socket.send(data.encode())
-		pass
+		print("connecting to \"%s\" on %s" % (name, host))
+		# Create the client socket
+		sock=BluetoothSocket( RFCOMM )
+		sock.connect((host, port))
 
-	def close_connection(self):
-		self.client_socket.close()
-		pass
+		print("Connected")
+
+	def close_sock(self):
+		self.sock.close()
 
 
 class RootWidget(FloatLayout):
-	myBtConnection = btConnection()
 	def build(self):
 		pass
 
@@ -78,6 +67,7 @@ class RootWidget(FloatLayout):
 		print(stop)
 
 	def add_number(self, digit):
+
 		text = self.ids.entry.text
 		#print(len(text)) // for debug purposes
 		if (len(text) < 8):
@@ -95,6 +85,10 @@ class RootWidget(FloatLayout):
 
 if __name__ == '__main__':
 	class TimerApp(App):
+		myBtConnection = BlueClient()
+		myBtConnection.daemon = True
+		myBtConnection.start()
+
 		def build(self):
 			self.use_kivy_settings = False
 			self.settings_cls = SettingsWithSidebar

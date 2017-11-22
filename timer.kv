@@ -30,9 +30,10 @@
                     screen_manager.current = 'about_screen'
                     main.toggle_state()
             Label:
-                text: connected if root.myBtConnection.connection_status() else disconnected
-                halign: 'center'
-                valign: 'middle'
+                text: connected
+                #if app._btclient.connection_status() else disconnected
+                #halign: 'center'
+                #valign: 'middle'
 
         ScreenManager:
             id: screen_manager
