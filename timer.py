@@ -27,7 +27,7 @@ class BlueClient(threading.Thread):
 
 		print("connecting to \"%s\" on %s" % (name, host))
 		# Create the client socket
-		sock = self.connect(host,port)
+		self.sock = self.connect(host,port)
 
 		while True:
 			pass
