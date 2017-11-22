@@ -27,8 +27,12 @@ class BlueClient(threading.Thread):
 
 		print("connecting to \"%s\" on %s" % (name, host))
 		# Create the client socket
-		sock=BluetoothSocket( RFCOMM )
-		sock.connect((host, port))
+		try:
+			sock=BluetoothSocket( RFCOMM )
+			sock.connect((host, port))
+		except Exception as e:
+			print("Host found. Server rejecting connection.")
+
 		print("Connected")
 
 		while True:
