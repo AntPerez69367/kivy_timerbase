@@ -29,6 +29,8 @@ class BlueClient(threading.Thread):
 		sock.connect((host, port))
 
 		print("Connected")
+		while True:
+			pass
 
 	def close_sock(self):
 		self.sock.close()
