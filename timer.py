@@ -82,7 +82,7 @@ class RootWidget(FloatLayout):
 		else:
 			self.ids.startb.text = "Start"
 
-	def stop_timer(self, arg1):
+	def stop_timer(self):
 		stop = '99'
 		self.myBtConnection.send(stop)
 
