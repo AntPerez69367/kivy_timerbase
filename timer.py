@@ -7,6 +7,7 @@ from bluetooth import *
 import threading, time, sys
 
 class BlueClient(threading.Thread):
+
 	def run(self):
 		addr = 'B8:27:EB:C2:A4:E0'
 		# search for the timer display service
@@ -32,16 +33,12 @@ class BlueClient(threading.Thread):
 		while True:
 			pass
 
-
 	def send(self, output):
 		try:
 			print("Send command received")
 			self.sock.send(output.encode())
 		except Exception as e:
 			print("Unable to send: %s" % (output))
-
-
-
 
 	def connect(self, host, port):
 		connected = False
@@ -51,6 +48,7 @@ class BlueClient(threading.Thread):
 				sock.connect((host, port))
 				connected = True
 				App.get_running_app().root.ids.cstatus.text = 'Bluetooth Status: \nConnected'
+				App.get_running_app.root.ids.cstatus.text.color = (1,0,1,1)
 			except Exception as e:
 				print("Host found. Server rejecting connection.")
 
@@ -65,7 +63,7 @@ class RootWidget(FloatLayout):
 	myBtConnection = BlueClient()
 	myBtConnection.daemon = True
 	myBtConnection.start()
-
+	started = False
 	def build(self):
 		pass
 
@@ -78,29 +76,17 @@ class RootWidget(FloatLayout):
 	def start_timer(self, data):
 		time = (self.ids.entry.text)
 		self.myBtConnection.send(time)
-		#try:
-		#	self.myBtConnection.send_data(time)
-		#except Exception as e:
-	#		raise e
-	#	finally:
-	#		pass
-		pass
+		self.started = not self.started
+		if self.started:
+			self.ids.startb.text = "Pause"
+		else:
+			self.ids.startb.text = "Start"
 
-	def connection_status(self):
-		return self.connected
 	def stop_timer(self, arg1):
-		stop = '99:99:99'
-
-		#try:
-		#	self.myBtConnection.send_data(stop)
-		#except Exception as e:
-		#	raise e
-		#finally:
-		#	pass
-		print(stop)
+		stop = '99'
+		self.myBtConnection.send(stop)
 
 	def add_number(self, digit):
-
 		text = self.ids.entry.text
 		#print(len(text)) // for debug purposes
 		if (len(text) < 8):
