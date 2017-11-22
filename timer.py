@@ -48,7 +48,7 @@ class BlueClient(threading.Thread):
 				sock.connect((host, port))
 				connected = True
 				App.get_running_app().root.ids.cstatus.text = 'Bluetooth Status: \nConnected'
-				App.get_running_app.root.ids.cstatus.text.color = (1,0,1,1)
+				App.get_running_app().root.ids.cstatus.color = (0,1,0,1)
 			except Exception as e:
 				print("Host found. Server rejecting connection.")
 
