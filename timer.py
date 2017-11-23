@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from kivy.app import App
 # kivy.require("1.8.0")
 from kivy.uix.floatlayout import FloatLayout
@@ -5,6 +7,7 @@ from kivy.uix.settings import SettingsWithSidebar
 from settingsjson import settings_json
 from bluetooth import *
 import threading, time, sys
+from kivy.uix.vkeyboard import VKeyboard
 
 class BlueClient(threading.Thread):
 
@@ -103,7 +106,6 @@ if __name__ == '__main__':
 			self.settings_cls = SettingsWithSidebar
 			self.surveyname = self.config.get('example', 'surveyname')
 			self.slidetime = self.config.get('example', 'slidetime')
-
 			return RootWidget()
 
 		def build_config(self, config):
