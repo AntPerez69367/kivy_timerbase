@@ -92,6 +92,50 @@ Builder.load_string('''
 ''')
 
 
+class ModeScreen(Screen):
+    """
+    Present the option to change keyboard mode and warn of system-wide
+    consequences.
+    """
+    center_label = ObjectProperty()
+    mode_spinner = ObjectProperty()
+
+    keyboard_mode = ""
+
+    def on_pre_enter(self, *args):
+        """ Detect the current keyboard mode and set the text of the main
+        label accordingly. """
+
+        self.keyboard_mode = Config.get("kivy", "keyboard_mode")
+        self.mode_spinner.text = "'{0}'".format(self.keyboard_mode)
+
+        p1 = "Current keyboard mode: '{0}'\n\n".format(self.keyboard_mode)
+        if self.keyboard_mode in ['dock', 'system', 'systemanddock']:
+            p2 = "You have the right setting to use this demo.\n\n"
+        else:
+            p2 = "You need the keyboard mode to 'dock', 'system' or '"\
+                 "'systemanddock'(below)\n in order to "\
+                 "use custom onscreen keyboards.\n\n"
+
+        p3 = "[b][color=#ff0000]Warning:[/color][/b] This is a system-wide " \
+            "setting and will affect all Kivy apps. If you change the\n" \
+            " keyboard mode, please use this app" \
+            " to reset this value to it's original one."
+
+        self.center_label.text = "".join([p1, p2, p3])
+
+    def set_mode(self, mode):
+        """ Sets the keyboard mode to the one specified """
+        Config.set("kivy", "keyboard_mode", mode.replace("'", ""))
+        Config.write()
+        self.center_label.text = "Please restart the application for this\n" \
+            "setting to take effect."
+
+    def next(self):
+        """ Continue to the main screen """
+        self.manager.current = "keyboard"
+
+
 class KeyboardScreen(Screen):
     """
     Screen containing all the available keyboard layouts. Clicking the buttons
