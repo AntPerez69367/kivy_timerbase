@@ -120,7 +120,8 @@ if __name__ == '__main__':
 									data=settings_json)
 
 		def on_config_change(self, config, section, key, value):
-			print (config, section, key, value)
-			pass
+			config.write()
+			self.surveyname = config.get('example', 'surveyname')
+			self.slidetime  = config.get('example', 'slidetime')
 
 	TimerApp().run()
