@@ -26,7 +26,7 @@ class BlueClient(threading.Thread):
 		self.sock = self.connect(host,port)
 
 		while True:
-			data = client_sock.recv(1024).decode()
+			data = self.sock.recv(1024).decode()
 			if len(data) == 0:
 				pass
 			else:
