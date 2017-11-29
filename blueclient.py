@@ -4,6 +4,7 @@ import threading
 class BlueClient(threading.Thread):
 
 	def run(self):
+		self.connected = False
 		addr = 'B8:27:EB:C2:A4:E0'
 		# search for the timer display service
 		uuid = "00001101-0000-1000-8000-00805f9b34fb"
@@ -23,14 +24,21 @@ class BlueClient(threading.Thread):
 
 		print("connecting to \"%s\" on %s" % (name, host))
 		# Create the client socket
-		self.sock = self.connect(host,port)
 
 		while True:
-			data = self.sock.recv(1024).decode()
-			if len(data) == 0:
-				pass
-			else:
-				print("received [%s]" % data)
+			if not self.connected:
+				self.sock = self.connect(host,port)
+			try:
+				data = self.sock.recv(1024).decode()
+				if len(data) == 0:
+					pass
+				else:
+					print("received [%s]" % data)
+			except Exception as e:
+				self.connected = False
+				print(e)
+
+		self.close_sock()
 
 	def send(self, output):
 		try:
@@ -40,20 +48,23 @@ class BlueClient(threading.Thread):
 			print("Unable to send: %s" % (output))
 
 	def connect(self, host, port):
-		connected = False
-		while not connected:
+
+		while not self.connected:
 			try:
 				sock=BluetoothSocket( RFCOMM )
 				sock.connect((host, port))
-				connected = True
+				self.connected = True
 				App.get_running_app().root.ids.cstatus.text = 'Bluetooth Status: \nConnected'
 				App.get_running_app().root.ids.cstatus.color = (0,1,0,1)
 			except Exception as e:
-				print("Host found. Server rejecting connection.")
+				#print("Host found. Server rejecting connection.")
+				pass
 
 		print("Connected")
 		return sock
 
+
 	def close_sock(self):
+		self.connected = False
 		self.sock.close()
 
