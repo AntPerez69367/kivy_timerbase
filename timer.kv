@@ -25,6 +25,12 @@
                     app.open_settings()
                     main.toggle_state()
             Button:
+                id: surveybutton
+                text: 'Surveys'
+                on_press:
+                    screen_manager.current = 'survey_screen'
+                    main.toggle_state()
+            Button:
                 text: 'About'
                 on_press:
                     screen_manager.current = 'about_screen'
@@ -123,6 +129,35 @@
             Screen:
                 name: 'settings_screen'
 
+            Screen:
+                name: 'survey_screen'
+                BoxLayout:
+                    orientation: 'vertical'
+                    Label:
+                        halign: 'center'
+                        valign: 'middle'
+                        text: "Survey Results"
+                        font_size: 64
+                    Label:
+                        halign: 'center'
+                        valign: 'middle'
+                        text:'Survey Stuff goes here'
+
+                    AnchorLayout:
+                        anchor_x: 'right'
+                        anchor_y: 'bottom'
+
+                        Button:
+                            text: "Done"
+                            size_hint: (0.1,0.35)
+                            on_press: screen_manager.current = 'timer_screen'
+                    AnchorLayout:
+                        anchor_x: 'left'
+                        anchor_y: 'bottom'
+                        Button:
+                            text: "Clear Survey"
+                            size_hint: (0.1,0.35)
+                            on_press: screen_manager.current = 'timer_screen'
 
             Screen:
                 name: 'about_screen'
